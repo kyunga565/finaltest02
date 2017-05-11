@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dgit.finaltest02.mappers.EmployeeMapper">
+	<select id="selectEmployee" resultType="Employee">
+<!-- 		select
+		e.eno,t.tname,e.ename,e.salary,e.gender,e.joindate,d.dname from 
+		employee e,title t, department d where e.tcode=t.tcode and 
+		e.dcode=d.dcode -->
+		
+		select * from employee
+	</select>
+	<select id="selectEmployeeTitle" resultType="Employee">
+		select DISTINCT
+		ename from employee
+	</select>
+	<select id="getEno" resultType="int">
+		select max(eno)+1 from employee
+	</select>
+	<insert id="insertEmployee" parameterType="Employee">
+		insert into employee values(#{eno},#{tcode},#{ename},#{salary},#{gender},#{joindate},#{dcode})
+	</insert>
+</mapper>

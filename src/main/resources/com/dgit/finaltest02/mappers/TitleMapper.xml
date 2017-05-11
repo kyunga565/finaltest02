@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dgit.finaltest02.mappers.TitleMapper">
+	<select id="selectAll" resultType="title">
+		SELECT * from title
+	</select>
+	<select id="selectTitle" resultType="Title" parameterType="int">
+		select * from title where tcode=#{tcode}
+	</select>
+	<select id="getTno" resultType="int">
+		select max(tcode)+1 from title
+	</select>
+	<insert id="insertTitle" parameterType="Title">
+		insert into title values(#{tcode},#{tname})
+	</insert>
+	<update id="updateTitle">
+		update title set tname = #{tname} where tcode = #{tcode}
+	</update>
+	<delete id="deleteTitle">
+		delete from title where tcode = #{tcode}
+	</delete>
+</mapper>
