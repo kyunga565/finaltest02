@@ -99,7 +99,7 @@ public class MemberMng extends JFrame implements ActionListener{
 		cbTitle = new JComboBox<>();
 		List<Title> listtitle = CompanyService.getInstance().selectAll();
 		for(Title t : listtitle){
-			cbTitle.addItem(t.getTname());
+			cbTitle.addItem(t.toString());//.getTname()
 		}
 		
 		panel_1.add(cbTitle);
@@ -126,6 +126,10 @@ public class MemberMng extends JFrame implements ActionListener{
 		rdbtnM.setSelected(true);
 		panel.add(rdbtnM);
 
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rdbtnM);
+		bg.add(rdbtnW);
+		
 		JLabel lblPart = new JLabel("부서");
 		panel_1.add(lblPart);
 		lblPart.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -271,11 +275,18 @@ public class MemberMng extends JFrame implements ActionListener{
 
 
 	private void actionPerformedBtnAdd(ActionEvent e) {
-		if(e.getActionCommand()=="추가"){
+		if(e.getActionCommand() == "확인"){
 			Employee dObj;
 			dObj = getObject();
-			CompanyService.getInstance().insertEmployee(dObj);
-			JOptionPane.showMessageDialog(null, "추가되었습니다.");
+			
+			if(tfName.getText().trim().equals("")){
+				JOptionPane.showMessageDialog(null, "빈칸을 확인하세요.");
+				return;
+			}else{
+				CompanyService.getInstance().insertEmployee(dObj);
+				JOptionPane.showMessageDialog(null, "추가되었습니다.");
+			}
+			
 
 			tfNo.setText(CompanyService.getInstance().getEno()+"");
 			tfName.setText("");
@@ -283,22 +294,26 @@ public class MemberMng extends JFrame implements ActionListener{
 			cbTitle.setSelectedIndex(0);
 			spSalary.setValue(1500000);
 			
+			DefaultTableModel model = new DefaultTableModel(row(), col());
+			table.setModel(model);
+			
 		}else{
 			Employee dObj;
 			dObj = getObject();
 			CompanyService.getInstance().updateEmployee(dObj);
-			JOptionPane.showMessageDialog(null, "수정되었습니다.");
+			JOptionPane.showMessageDialog(null, "수정되었습니다?.");
 			
 			tfNo.setText(CompanyService.getInstance().getEno()+"");
 			tfName.setText("");
 			cbPart.setSelectedIndex(0);
 			cbTitle.setSelectedIndex(0);
 			spSalary.setValue(1500000);
+			
+			DefaultTableModel model = new DefaultTableModel(row(), col());
+			table.setModel(model);
 		}
 		
 		
-		DefaultTableModel model = new DefaultTableModel(row(), col());
-		table.setModel(model);
 	}
 
 	private void actionPerformedBtncancel(ActionEvent e) {
@@ -346,7 +361,7 @@ public class MemberMng extends JFrame implements ActionListener{
 		int y = Integer.parseInt(date[0]);
 		int m = Integer.parseInt(date[1]);
 		int d = Integer.parseInt(date[2]);
-		GregorianCalendar g = new GregorianCalendar(y, m, d);
+		GregorianCalendar g = new GregorianCalendar(y, m-1, d);
 		Date joindate = g.getTime();
 		
 		System.out.println(eno+"/"+ename+"/"+tco+"/"+salary+"/"+gender+"/"+dco+"/"+joindate);
