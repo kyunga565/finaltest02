@@ -97,6 +97,11 @@ public class Employee {//"번호", "사원명", "직책", "급여", "성별", "�
 	}
 
 
+	public Employee(int eno) {
+		this.eno = eno;
+	}
+
+
 	@Override
 	public String toString() {
 		return String.format("Employee [eno=%s, tcode=%s, ename=%s, salary=%s, gender=%s, joindate=%s, dcode=%s]", eno,

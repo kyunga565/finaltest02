@@ -30,31 +30,38 @@ public class ComTest {
 	}
 
 //	@Test
-	public void test() {
+	public void testInsert(){
+		Employee dObj = new Employee(9, "경", 1, 100, 0, 1, new Date()); 
+		cs.insertEmployee(dObj);
+		System.out.println(dObj);
+	}
+//	@Test
+	public void testDelete() {
+		cs.deleteEmployee(8+"");
+		List<Employee> list = cs.selectEmployee();
+		System.out.println(list);
+		
+	}
+//	@Test
+	public void testUpdate(){
+		Employee dObj = new Employee(9, "경아테스트", 2, 200000, 1, 3, new Date());
+		cs.updateEmployee(dObj);
+		System.out.println(dObj);
+	}
+//	@Test
+	public void testSelect() {
 	//	int select = cs.getEno();
 		List<Employee> select = cs.selectEmployee();
 		Assert.assertNotNull(select);
 		System.out.println(select);
-		
 	}
 
-//	@Test
-//	public void test2() {
-//		List<Title> select = cs.selectTitle();
-//		Assert.assertNotNull(select);
-//		System.out.println(select);
-//	}
-//	@Test
-	public void test3() {
-		List<Department> select = cs.selectPart();
+	@Test
+	public void testSelectOne() {
+		Title select = cs.selectTitle(1);
 		Assert.assertNotNull(select);
 		System.out.println(select);
-		
 	}
-	@Test
-	public void test4(){
-		Employee dObj = new Employee(17003, "경", 1, 100, 0, 1, new Date()); 
-		cs.insertEmployee(dObj);
-		System.out.println(dObj);
-	}
+
+
 }
