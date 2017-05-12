@@ -4,11 +4,9 @@
 
 <mapper namespace="com.dgit.finaltest02.mappers.EmployeeMapper">
 	<select id="selectEmployee" resultType="Employee">
-<!-- 		select
-		e.eno,t.tname,e.ename,e.salary,e.gender,e.joindate,d.dname from 
-		employee e,title t, department d where e.tcode=t.tcode and 
-		e.dcode=d.dcode -->
-		
+		<!-- select e.eno,t.tname,e.ename,e.salary,e.gender,e.joindate,d.dname 
+			from employee e,title t, department d where e.tcode=t.tcode and e.dcode=d.dcode -->
+
 		select * from employee
 	</select>
 	<select id="selectEmployeeTitle" resultType="Employee">
@@ -19,6 +17,15 @@
 		select max(eno)+1 from employee
 	</select>
 	<insert id="insertEmployee" parameterType="Employee">
-		insert into employee values(#{eno},#{tcode},#{ename},#{salary},#{gender},#{joindate},#{dcode})
+		insert into employee
+		values(#{eno},#{tcode},#{ename},#{salary},#{gender},#{joindate},#{dcode})
 	</insert>
+	<update id="updateEmployee">
+		update employee set ename = #{ename},tcode =
+		#{tcode},salary = #{salary},gender = #{gender},dcode =
+		#{dcode},joindate = #{joindate} where eno = #{eno}
+	</update>
+	<delete id="deleteEmployee">
+		delete from employee where eno = #{eno}
+	</delete>
 </mapper>

@@ -3,8 +3,10 @@ package com.dgit.finaltest02.main;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -14,6 +16,8 @@ import javax.swing.JRadioButton;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,6 +57,7 @@ public class MemberMng extends JFrame implements ActionListener{
 	private JSpinner spSalary;
 //	ButtonGroup bg;
 	private JRadioButton rdbtnW,rdbtnM;
+	JPopupMenu popupMenu;
 	
 	public MemberMng() {
 		setTitle("사원관리");
@@ -156,6 +161,70 @@ public class MemberMng extends JFrame implements ActionListener{
 		contentPane.add(panel_2, BorderLayout.CENTER);
 
 		table = new JTable();
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				popupMenu = new JPopupMenu();
+				popupMenu.setBounds(0, 0, 80, 50);
+				
+				JMenuItem item1 = new JMenuItem("수정");
+				item1.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						String no = (String) table.getValueAt(table.getSelectedRow(),0);
+						String name = (String) table.getValueAt(table.getSelectedRow(),1);
+					//	String salary = (String) table.getValueAt(table.getSelectedRow(), 3);
+						System.out.println(table.getSelectedRow());
+						String date = (String) table.getValueAt(table.getSelectedRow(), 6);
+						tfNo.setText(no);
+						tfName.setText(name);
+						tfDate.setText(date);
+						btnOK.setText("수정");
+					
+					}
+				});
+				popupMenu.add(item1);
+				
+				JMenuItem item2 = new JMenuItem("삭제");
+				item2.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						String no = (String) table.getValueAt(table.getSelectedRow(),0);
+						CompanyService.getInstance().deleteEmployee(no);
+						
+						JOptionPane.showMessageDialog(null, "삭제되었습니다.");
+						
+						DefaultTableModel model = new DefaultTableModel(row(), col());
+						table.setModel(model);
+						tfNo.setText(CompanyService.getInstance().getEno()+"");	
+						tfName.setText("");
+						cbPart.setSelectedIndex(0);
+						cbTitle.setSelectedIndex(0);
+						spSalary.setValue(1500000);
+					}
+				});
+				popupMenu.add(item2);
+				table.add(popupMenu);
+				
+				if(e.getModifiers() == e.BUTTON3_MASK){
+					popupMenu.show(table, e.getX(), e.getY());
+				}
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+		});
 		table.setBorder(new EmptyBorder(5, 5, 5, 5));
 		table.setBounds(8, 51, 100, 50);
 		table.setModel(new DefaultTableModel(row(), col()));
@@ -202,16 +271,31 @@ public class MemberMng extends JFrame implements ActionListener{
 
 
 	private void actionPerformedBtnAdd(ActionEvent e) {
-		Employee dObj;
-		dObj = getObject();
-		CompanyService.getInstance().insertEmployee(dObj);
-		JOptionPane.showMessageDialog(null, "추가되었습니다.");
+		if(e.getActionCommand()=="추가"){
+			Employee dObj;
+			dObj = getObject();
+			CompanyService.getInstance().insertEmployee(dObj);
+			JOptionPane.showMessageDialog(null, "추가되었습니다.");
 
-		tfNo.setText(CompanyService.getInstance().getEno()+"");
-		tfName.setText("");
-		cbPart.setSelectedIndex(0);
-		cbTitle.setSelectedIndex(0);
-		spSalary.setValue(1500000);
+			tfNo.setText(CompanyService.getInstance().getEno()+"");
+			tfName.setText("");
+			cbPart.setSelectedIndex(0);
+			cbTitle.setSelectedIndex(0);
+			spSalary.setValue(1500000);
+			
+		}else{
+			Employee dObj;
+			dObj = getObject();
+			CompanyService.getInstance().updateEmployee(dObj);
+			JOptionPane.showMessageDialog(null, "수정되었습니다.");
+			
+			tfNo.setText(CompanyService.getInstance().getEno()+"");
+			tfName.setText("");
+			cbPart.setSelectedIndex(0);
+			cbTitle.setSelectedIndex(0);
+			spSalary.setValue(1500000);
+		}
+		
 		
 		DefaultTableModel model = new DefaultTableModel(row(), col());
 		table.setModel(model);
@@ -266,7 +350,7 @@ public class MemberMng extends JFrame implements ActionListener{
 		Date joindate = g.getTime();
 		
 		System.out.println(eno+"/"+ename+"/"+tco+"/"+salary+"/"+gender+"/"+dco+"/"+joindate);
-		return new Employee(eno, ename, tco, salary, gender, dco, new Date());
+		return new Employee(eno, ename, tco, salary, gender, dco, joindate);
 		
 	}
 

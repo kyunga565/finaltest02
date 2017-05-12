@@ -208,4 +208,28 @@ public class CompanyService {
 			sqlSession.close();
 		}
 	}
+	public void updateEmployee(Employee dObj) {
+		SqlSession sqlSession = MybatisSqlSessionFactory.openSession();
+		
+		try{
+			EmployeeMapper dm = sqlSession.getMapper(EmployeeMapper.class);
+			dm.updateEmployee(dObj);
+			sqlSession.commit();
+		}finally{
+			sqlSession.close();
+		}
+		
+	}
+	public void deleteEmployee(String no) {
+		SqlSession sqlSession = MybatisSqlSessionFactory.openSession();
+		
+		try{
+			EmployeeMapper dm = sqlSession.getMapper(EmployeeMapper.class);
+			dm.deleteEmployee(no);
+			sqlSession.commit();
+		}finally{
+			sqlSession.close();
+		}
+		
+	}
 }

@@ -10,4 +10,6 @@ public interface EmployeeMapper {
 	List<Employee> selectEmployeeTitle();
 	int getEno();
 	void insertEmployee(Employee dObj);
+	void updateEmployee(Employee dObj);
+	void deleteEmployee(String no);
 }
