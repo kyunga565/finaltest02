@@ -18,16 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -37,9 +33,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.dgit.finaltest02.dto.Department;
 import com.dgit.finaltest02.dto.Employee;
-import com.dgit.finaltest02.dto.Employee22;
 import com.dgit.finaltest02.dto.Title;
-import com.dgit.finaltest02.mappers.TitleMapper;
 import com.dgit.finaltest02.service.CompanyService;
 import javax.swing.SpinnerNumberModel;
 
@@ -181,12 +175,33 @@ public class MemberMng extends JFrame implements ActionListener{
 					public void actionPerformed(ActionEvent e) {
 						String no = (String) table.getValueAt(table.getSelectedRow(),0);
 						String name = (String) table.getValueAt(table.getSelectedRow(),1);
-					//	String salary = (String) table.getValueAt(table.getSelectedRow(), 3);
-						System.out.println(table.getSelectedRow());
+						String title = (String) table.getValueAt(table.getSelectedRow(),2);
+						String salary = (String) table.getValueAt(table.getSelectedRow(), 3);
+						String gender = (String) table.getValueAt(table.getSelectedRow(), 4);
+						String part = (String) table.getValueAt(table.getSelectedRow(), 5);
 						String date = (String) table.getValueAt(table.getSelectedRow(), 6);
+					
+						if(gender.equals("남자")){
+							rdbtnM.setSelected(true);
+						}else{
+							rdbtnW.setSelected(true);
+						}
+						
+						for (int i = 0; i < cbTitle.getItemCount(); i++) {
+							if (cbTitle.getItemAt(i).equals(title)) {
+								cbTitle.setSelectedIndex(i);
+							}
+						}
+						for (int i = 0; i < cbPart.getItemCount(); i++) {
+							if (cbPart.getItemAt(i).toString().contains(part)) {
+								cbPart.setSelectedIndex(i);
+							}
+						}
+						
 						tfNo.setText(no);
 						tfName.setText(name);
 						tfDate.setText(date);
+						spSalary.setValue(Integer.parseInt(salary));
 						btnOK.setText("수정");
 					
 					}
@@ -257,7 +272,7 @@ public class MemberMng extends JFrame implements ActionListener{
 			}else{
 				gender = "남자";
 			}
-			System.out.println(rowDatas[0]);
+			
 			rowDatas[i] = new String[]{e.getEno()+"", e.getEname() ,title.getTname(),e.getSalary()+"",gender ,dpart.getDname(),df.format(e.getJoindate())+""};
 			
 		}
@@ -291,6 +306,7 @@ public class MemberMng extends JFrame implements ActionListener{
 
 			tfNo.setText(CompanyService.getInstance().getEno()+"");
 			tfName.setText("");
+			rdbtnM.setSelected(true);
 			cbPart.setSelectedIndex(0);
 			cbTitle.setSelectedIndex(0);
 			spSalary.setValue(1500000);
@@ -302,13 +318,14 @@ public class MemberMng extends JFrame implements ActionListener{
 			Employee dObj;
 			dObj = getObject();
 			CompanyService.getInstance().updateEmployee(dObj);
-			JOptionPane.showMessageDialog(null, "수정되었습니다?.");
+			JOptionPane.showMessageDialog(null, "수정되었습니다.");
 			
 			tfNo.setText(CompanyService.getInstance().getEno()+"");
 			tfName.setText("");
 			cbPart.setSelectedIndex(0);
 			cbTitle.setSelectedIndex(0);
 			spSalary.setValue(1500000);
+			btnOK.setText("확인");
 			
 			DefaultTableModel model = new DefaultTableModel(row(), col());
 			table.setModel(model);

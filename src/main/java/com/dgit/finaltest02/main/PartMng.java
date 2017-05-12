@@ -20,14 +20,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.dgit.finaltest02.dto.Department;
-import com.dgit.finaltest02.dto.Employee22;
-import com.dgit.finaltest02.dto.Title;
 import com.dgit.finaltest02.service.CompanyService;
 
 
 import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JTable;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;

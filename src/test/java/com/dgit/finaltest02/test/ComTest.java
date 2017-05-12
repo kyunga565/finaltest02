@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.dgit.finaltest02.dto.Department;
 import com.dgit.finaltest02.dto.Employee;
-import com.dgit.finaltest02.dto.Employee22;
 import com.dgit.finaltest02.dto.Title;
 import com.dgit.finaltest02.service.CompanyService;
 
