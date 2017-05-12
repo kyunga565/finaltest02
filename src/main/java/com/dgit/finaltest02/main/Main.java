@@ -45,16 +45,17 @@ public class Main extends JFrame implements ActionListener{
 		contentPane.add(btnPart);
 		contentPane.add(btnTitle);
 	}
-
+	
+	MemberMng m = new MemberMng();
+	PartMng pm = new PartMng();
+	TitleMng tm = new TitleMng();
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnMem) {
-			MemberMng m = new MemberMng();
 			m.setVisible(true);
 		} else if (e.getSource() == btnPart) {
-			PartMng pm = new PartMng();
 			pm.setVisible(true);
 		} else if (e.getSource() == btnTitle) {
-			TitleMng tm = new TitleMng();
 			tm.setVisible(true);
 		}
 		

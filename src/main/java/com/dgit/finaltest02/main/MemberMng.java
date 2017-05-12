@@ -257,6 +257,7 @@ public class MemberMng extends JFrame implements ActionListener{
 			}else{
 				gender = "남자";
 			}
+			System.out.println(rowDatas[0]);
 			rowDatas[i] = new String[]{e.getEno()+"", e.getEname() ,title.getTname(),e.getSalary()+"",gender ,dpart.getDname(),df.format(e.getJoindate())+""};
 			
 		}
